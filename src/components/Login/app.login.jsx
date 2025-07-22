@@ -1,7 +1,9 @@
 import { Button, Container, Form } from "react-bootstrap";
-import NavBar from "../Home/NavBar/app.navbar";
 import "./app.login.css";
 import { Link } from "react-router";
+import RegisterInformation from "../Home/RegisterInformation/app.register.information";
+import AppFooter from "../Footer/app.footer";
+import NavBar from "../NavBar/app.navbar";
 const AppLogin = () => {
   return (
     <>
@@ -42,6 +44,12 @@ const AppLogin = () => {
           </Form.Text>
         </Form>
       </Container>
+      <Container>
+        <RegisterInformation />
+      </Container>
+      <div>
+        <AppFooter />
+      </div>
     </>
   );
 };

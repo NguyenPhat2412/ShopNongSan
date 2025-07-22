@@ -52,7 +52,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  justify-content: center;
 }
 .navbar-menu p {
   margin: 0;
@@ -65,4 +64,14 @@
   display: flex;
   align-items: center;
   gap: 2px;
+}
+.navbar-between-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbar-between-menu {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

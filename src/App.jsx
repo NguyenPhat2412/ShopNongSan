@@ -8,6 +8,9 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import AppHome from "./components/Home/app.home";
 import AppLogin from "./components/Login/app.login";
 import AppRegister from "./components/Register/app.register";
+import AppUser from "./components/User/app.user";
+import UserHistory from "./components/User/History/user.history";
+import AppShop from "./components/Shop/app.shop";
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Route path="/" element={<AppHome />} />
         <Route path="/account/login" element={<AppLogin />} />
         <Route path="/account/register" element={<AppRegister />} />
+        <Route path="/account" element={<AppUser />} />
+        <Route path="/user/order-history" element={<UserHistory />} />
+        <Route path="/app/shop" element={<AppShop />} />
       </Routes>
     </BrowserRouter>
   );
