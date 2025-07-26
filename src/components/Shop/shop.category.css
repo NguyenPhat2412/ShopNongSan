@@ -52,3 +52,38 @@
 .rating-item {
   display: flex;
 }
+
+.rating-item input[type="radio"] {
+  margin-right: 10px;
+}
+
+.category-item input[type="radio"] {
+  accent-color: #27ec00;
+  cursor: pointer;
+  border: 1px solid #91ff00;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.category-header h3 {
+  margin: 0;
+}
+
+.category-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.banner img {
+  width: 300px;
+  height: 300px;
+  margin-top: 20px;
+}

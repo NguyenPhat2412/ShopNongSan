@@ -69,9 +69,35 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 }
 
 .navbar-between-menu {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.navbar-search {
+  border: 2px solid #2bff00;
+  border-radius: 6px;
+}
+
+.navbar-search input {
+  padding: 7px;
+  border: none;
+}
+.navbar-search input:focus {
+  outline: none;
+}
+
+.navbar-search Button {
+  padding: 10px;
+  background-color: #2bff00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar-search Button:hover {
+  background-color: #28c700;
 }

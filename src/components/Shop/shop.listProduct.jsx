@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import "./shop.listProduct.css";
 import ProductDetails from "./ProductDetails/shop.productDetails";
+import { useCategory } from "../../UseContext/CategoryContext";
 const ListProduct = () => {
   const [productList, setProductList] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { selectedCategory } = useCategory();
 
   // Fetch data from API
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const response = await fetch(
-          `${import.meta.env.VITE_DATABASE_URL}/api/client/products`
-        );
-        const data = await response.json();
-        console.log("Product data:", data);
+        const response = selectedCategory
+          ? `${import.meta.env.VITE_DATABASE_URL}/api/client/products/category/${selectedCategory}`
+          : `${import.meta.env.VITE_DATABASE_URL}/api/client/products`;
+        const res = await fetch(response);
+        if (!res.ok) {
+          throw new Error("Failed to fetch product data");
+        }
+        const data = await res.json();
         setProductList(data);
       };
       fetchData();
     } catch (error) {
       console.error("Error fetching product data:", error);
     }
-  }, []);
+  }, [selectedCategory]);
 
   const handleShowDetails = (product) => {
     setSelectedProduct(product);
@@ -29,7 +34,6 @@ const ListProduct = () => {
   };
   return (
     <div>
-      <h1>List Product</h1>
       <div className="product-list">
         {productList.map((product) => (
           <div key={product.id} className="product-item">
@@ -61,7 +65,7 @@ const ListProduct = () => {
       <ProductDetails
         show={showDetails}
         onHide={() => setShowDetails(false)}
-        product={selectedProduct}
+        ProductDetails={selectedProduct}
       />
     </div>
   );

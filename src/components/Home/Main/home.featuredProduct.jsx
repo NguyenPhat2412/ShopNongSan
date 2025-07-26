@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import "./home.featuredProduct.css";
+import ProductDetails from "../../Shop/ProductDetails/shop.productDetails";
 const FeatureProduct = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [showAll, setShowAll] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   // Fetch featured products data from database
   useEffect(() => {
@@ -22,6 +25,11 @@ const FeatureProduct = () => {
     };
     fetchFeaturedProducts();
   }, []);
+
+  const handleShowDetails = (product) => {
+    setSelectedProduct(product);
+    setShowDetails(true);
+  };
 
   const displayedProducts = showAll
     ? featuredProducts
@@ -47,6 +55,7 @@ const FeatureProduct = () => {
               <img
                 src={`${import.meta.env.VITE_DATABASE_URL}${product.img}`}
                 alt={product.name}
+                onClick={() => handleShowDetails(product)}
               />
             </div>
             <div className="product-details">
@@ -67,6 +76,11 @@ const FeatureProduct = () => {
           </div>
         ))}
       </div>
+      <ProductDetails
+        ProductDetails={selectedProduct}
+        show={showDetails}
+        onHide={() => setShowDetails(false)}
+      />
     </div>
   );
 };

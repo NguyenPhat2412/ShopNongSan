@@ -1,7 +1,30 @@
+import { useEffect, useState } from "react";
 import { NavDropdown } from "react-bootstrap";
-
+import Cookies from "js-cookie";
 import { Link } from "react-router";
 const NavBarTop = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      setIsLoggedIn(true);
+
+      const fetchUserInfo = async () => {
+        const res = await fetch(
+          `${import.meta.env.VITE_DATABASE_URL}/api/client/user`,
+          {
+            credentials: "include",
+          }
+        );
+        const data = await res.json();
+        setUserInfo(data);
+      };
+
+      fetchUserInfo();
+    }
+  }, []);
   return (
     <div className="navbar">
       <div className="navbar-address">
@@ -21,15 +44,23 @@ const NavBarTop = () => {
           <NavDropdown.Item href="#action/3.3">Lựa chọn khác</NavDropdown.Item>
         </NavDropdown>
         <div>|</div>
-        <div className="navbar-auth">
-          <Link to={"/account/login"} className="nav-link">
-            Đăng nhập
-          </Link>
-          <div>/</div>
-          <Link to={"/account/register"} className="nav-link">
-            Đăng ký
-          </Link>
-        </div>
+        {isLoggedIn ? (
+          <div>
+            <div>
+              Welcome back! <strong>{userInfo?.username}</strong>
+            </div>
+          </div>
+        ) : (
+          <div className="navbar-auth">
+            <Link to={"/account/login"} className="nav-link">
+              Đăng nhập
+            </Link>
+            <div>/</div>
+            <Link to={"/account/register"} className="nav-link">
+              Đăng ký
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

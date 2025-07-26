@@ -10,7 +10,7 @@
   margin-bottom: 20px;
 }
 
-.user-history-title div .view-order-button {
+.user-history-title div Button {
   background-color: transparent;
   color: rgb(10, 121, 10);
   border: none;

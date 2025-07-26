@@ -45,7 +45,7 @@ const HomeMain = () => {
           </div>
           <div>
             <i className="fa-solid fa-plus"></i>
-            <Link to="/user/farmer" className="nav-link">
+            <Link to="/app/shop" className="nav-link">
               View All Categories
             </Link>
           </div>

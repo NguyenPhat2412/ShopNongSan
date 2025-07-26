@@ -1,15 +1,32 @@
 import { useEffect, useState } from "react";
 import "rc-slider/assets/index.css";
 import "./shop.category.css";
+import { useCategory } from "../../UseContext/CategoryContext";
 const CategoryProduct = () => {
   const [category, setCategory] = useState([]);
+  const { selectedCategory, setSelectedCategory } = useCategory();
   const [products, setProducts] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [selectedRating, setSelectedRating] = useState(null);
   const [sale, setSale] = useState(false);
 
-  const handleRangeChange = (values) => {
-    setPriceRange(values);
+  const [showAll, setShowAll] = useState(true);
+  const [showPriceFilter, setShowPriceFilter] = useState(true);
+  const [showRatingFilter, setShowRatingFilter] = useState(true);
+
+  // Handle sale toggle
+  const handleSaleToggle = () => {
+    setShowAll((prevShowAll) => !prevShowAll);
+  };
+
+  // Handle price toggle
+  const handlePriceToggle = () => {
+    setShowPriceFilter((prevShowPriceFilter) => !prevShowPriceFilter);
+  };
+
+  // Handle rating toggle
+  const handleRatingToggle = () => {
+    setShowRatingFilter((prevShowRatingFilter) => !prevShowRatingFilter);
   };
 
   // Fetch Promise all
@@ -20,6 +37,7 @@ const CategoryProduct = () => {
           fetch(`${import.meta.env.VITE_DATABASE_URL}/api/client/categories`),
           fetch(`${import.meta.env.VITE_DATABASE_URL}/api/client/products`),
         ]);
+
         const categoryData = await categoryResponse.json();
         const productData = await productResponse.json();
 
@@ -28,15 +46,13 @@ const CategoryProduct = () => {
         }
 
         setCategory(categoryData);
-        console.log("Category Data:", categoryData);
         setProducts(productData);
-        console.log("Product Data:", productData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchAll();
-  }, []);
+  }, [selectedCategory]);
 
   // Filter products have discount
   const displayedProducts = products.filter((product) => {
@@ -49,38 +65,83 @@ const CategoryProduct = () => {
   return (
     <div className="category-product">
       <div>
-        <h2>All Categories</h2>
-        <div className="category-list">
+        <div className="category-header">
+          <h3>All Categories</h3>
+          <button onClick={handleSaleToggle}>
+            {showAll ? (
+              <i class="fa-solid fa-angle-down"></i>
+            ) : (
+              <i class="fa-solid fa-angle-up"></i>
+            )}
+          </button>
+        </div>
+        <div
+          className="category-list"
+          style={{ display: showAll ? "block" : "none" }}
+        >
           {category.map((cat) => (
             <div key={cat.id} className="category-item">
-              <input type="radio" name="category" />
-              <div>{cat.category}</div>
+              <input
+                type="radio"
+                name="category"
+                value={cat._id}
+                checked={selectedCategory === cat.category}
+                onChange={() => setSelectedCategory(cat.category)}
+              />
+
+              <div>{cat.name}</div>
             </div>
           ))}
         </div>
       </div>
 
       <div>
-        <h2>Price</h2>
-        <input
-          type="text"
-          value={priceRange[0]}
-          onChange={(e) =>
-            setPriceRange([Number(e.target.value), priceRange[1]])
-          }
-        />
-        <input
-          type="text"
-          value={priceRange[1]}
-          onChange={(e) =>
-            setPriceRange([priceRange[0], Number(e.target.value)])
-          }
-        />
+        <div className="category-header">
+          <h3>Price</h3>
+          <button onClick={handlePriceToggle}>
+            {showPriceFilter ? (
+              <i class="fa-solid fa-angle-down"></i>
+            ) : (
+              <i class="fa-solid fa-angle-up"></i>
+            )}
+          </button>
+        </div>
+        <div
+          className="price-filter"
+          style={{ display: showPriceFilter ? "block" : "none" }}
+        >
+          <input
+            type="text"
+            value={priceRange[0]}
+            onChange={(e) =>
+              setPriceRange([Number(e.target.value), priceRange[1]])
+            }
+          />
+          <input
+            type="text"
+            value={priceRange[1]}
+            onChange={(e) =>
+              setPriceRange([priceRange[0], Number(e.target.value)])
+            }
+          />
+        </div>
       </div>
 
       <div className="rating-filter">
-        <h2>Rating</h2>
-        <div className="rating-list">
+        <div className="category-header">
+          <h3>Rating</h3>
+          <button onClick={handleRatingToggle}>
+            {showRatingFilter ? (
+              <i class="fa-solid fa-angle-down"></i>
+            ) : (
+              <i class="fa-solid fa-angle-up"></i>
+            )}
+          </button>
+        </div>
+        <div
+          className="rating-list"
+          style={{ display: showRatingFilter ? "block" : "none" }}
+        >
           {[5, 4, 3, 2, 1].map((star) => (
             <label key={star} className="rating-item">
               <input
@@ -98,9 +159,13 @@ const CategoryProduct = () => {
         </div>
       </div>
 
+      <div className="banner">
+        <img src="/public/ShopDiscount/Bannar.png" alt="Description" />
+      </div>
+
       {/* Sale */}
       <div>
-        <h2>Sale</h2>
+        <h3>Sale</h3>
         <div className="sale-filter">
           {ProductSale.length > 0 &&
             ProductSale.map((product) => (

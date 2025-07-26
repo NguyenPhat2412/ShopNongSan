@@ -7,7 +7,17 @@ import "./app.home.css";
 import RegisterInformation from "./RegisterInformation/app.register.information";
 import LatestNews from "./Main/home.latestNews";
 import FeatureProduct from "./Main/home.featuredProduct";
+import { useEffect } from "react";
 const AppHome = () => {
+  useEffect(() => {
+    const handleResize = () => {
+      window.location.reload();
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <>
       <Container>

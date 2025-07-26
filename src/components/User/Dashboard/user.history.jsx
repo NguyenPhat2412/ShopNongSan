@@ -3,11 +3,12 @@ import { Button, Container, Table } from "react-bootstrap";
 import AppUserBoard from "../app.user.board";
 import AppFooter from "../../Footer/app.footer";
 import NavBar from "../../NavBar/app.navbar";
+import InformationUser from "./user.inforUser";
 import "./user.history.css";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../UseContext/UserContext";
 import { Link, useNavigate } from "react-router";
-const UserHistory = () => {
+const UserDashboard = () => {
   const [dataOrder, setDataOrder] = useState([]);
   const [show, setShow] = useState(false);
   const { userInfo } = useUser();
@@ -37,7 +38,7 @@ const UserHistory = () => {
     fetchOrderHistory();
   }, [userId]);
 
-  const orderHistory = show ? dataOrder : dataOrder.slice(0, 10);
+  const orderHistory = show ? dataOrder : dataOrder.slice(0, 5);
 
   return (
     <>
@@ -54,8 +55,13 @@ const UserHistory = () => {
         <AppUserBoard />
         <div>
           <div>
+            <InformationUser />
+          </div>
+          <div>
             <div className="user-history-title">
-              <div className="user-history-title-text">Order History</div>
+              <div className="user-history-title-text">
+                Recent Order History
+              </div>
               <div>
                 <Button onClick={() => setShow(!show)}>
                   {show ? "Show Less" : "Show More"}
@@ -91,7 +97,6 @@ const UserHistory = () => {
                           navigate(`/user/order-history/${order._id}`)
                         }
                         variant="primary"
-                        className="view-order-button"
                       >
                         View Order
                       </Button>
@@ -108,4 +113,4 @@ const UserHistory = () => {
   );
 };
 
-export default UserHistory;
+export default UserDashboard;
